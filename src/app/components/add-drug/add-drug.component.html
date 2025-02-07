@@ -1,0 +1,152 @@
+<section class="w-full h-full">
+  <header class="bg-green-400 text-center p-2">
+    <h1 class="text-white text-center text-3xl uppercase font-bold">
+      Pharmacy
+    </h1>
+  </header>
+
+  <main class="p-2">
+    <div class="w-8/12 mx-auto">
+      <div class="py-2 flex items-center gap-5">
+        <button
+          class="flex items-center justify-center cursor-pointer"
+          (click)="back()"
+        >
+          <mat-icon>keyboard_backspace</mat-icon>
+        </button>
+        <h1 class="text-2xl">Add Drug</h1>
+      </div>
+      <form [formGroup]="addDrugForm" (submit)="addDrug()">
+        <div class="grid w-full gap-2 m-1">
+          <label for="name" class="">Drug Name</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Drug name"
+            class="input"
+            formControlName="name"
+          />
+          <div *ngIf="name?.touched && name?.invalid" class="error">
+            Drug name is required.
+          </div>
+        </div>
+
+        <div class="grid w-full gap-2 m-1">
+          <label for="price" class="">Drug Price</label>
+          <div class="grid grid-cols-2 gap-2">
+            <input
+              type="number"
+              name="price"
+              placeholder="Drug price"
+              class="input"
+              formControlName="price"
+            />
+            <select
+              name="money"
+              id="money"
+              class="input"
+              formControlName="priceValue"
+            >
+              <option value="INR">INR</option>
+              <option value="USD">USD</option>
+              <option value="EUR">EUR</option>
+            </select>
+          </div>
+          <div *ngIf="price?.touched && price?.invalid" class="error">
+            Price is required.
+          </div>
+          <div *ngIf="priceValue?.touched && priceValue?.invalid" class="error">
+            Currency is required.
+          </div>
+        </div>
+
+        <div class="grid w-full gap-2 m-1">
+          <label for="manufacturer" class="">Manufacturer</label>
+          <input
+            type="text"
+            name="manufacturer"
+            placeholder="Manufacturer"
+            class="input"
+            formControlName="manufacturer"
+          />
+          <div
+            *ngIf="manufacturer?.touched && manufacturer?.invalid"
+            class="error"
+          >
+            Manufacturer is required.
+          </div>
+        </div>
+
+        <div class="grid w-full gap-2 m-1">
+          <label for="expiry" class="">Expiry Date</label>
+          <input
+            type="date"
+            name="expiry"
+            placeholder="Expiry Date"
+            class="input"
+            formControlName="expiryDate"
+          />
+          <div *ngIf="expiryDate?.touched && expiryDate?.invalid" class="error">
+            Expiry date is required.
+          </div>
+        </div>
+
+        <div class="grid w-full gap-2 m-1">
+          <label for="dosage" class="">Drug Dosage</label>
+          <div class="grid grid-cols-3 gap-2">
+            <input
+              type="number"
+              name="dosagelevel"
+              placeholder="Dosage Level"
+              class="input"
+              formControlName="dosageLevel"
+            />
+
+            <select
+              name="dosage-size"
+              id="dosage-size"
+              class="input"
+              formControlName="dosageScale"
+            >
+              @for(dosageScale of dosageScales;track dosageScale){
+              <option value="{{ dosageScale }}">{{ dosageScale }}</option>
+              }
+            </select>
+
+            <select
+              name="dosage"
+              id="dosage"
+              class="input"
+              formControlName="dosage"
+            >
+              @for(dosage of dosageForms;track dosage){
+              <option value="{{ dosage }}">{{ dosage }}</option>
+              }
+            </select>
+          </div>
+
+          <div *ngIf="dosage?.touched && dosage?.invalid" class="error">
+            Dosage form is required.
+          </div>
+          <div
+            *ngIf="dosageLevel?.touched && dosageLevel?.invalid"
+            class="error"
+          >
+            Dosage level is required.
+          </div>
+        </div>
+        <button
+          type="submit"
+          [disabled]="addDrugForm.invalid"
+          class="w-full rounded p-2 text-center bg-blue-400 cursor-pointer m-1 disabled:cursor-not-allowed disabled:bg-blue-200"
+        >
+          Add Drug
+        </button>
+      </form>
+    </div>
+  </main>
+
+  @if( qrCodeDataURL !==null){
+  <img src="{{ qrCodeDataURL }}" alt="DataUrl" />
+  }
+</section>
