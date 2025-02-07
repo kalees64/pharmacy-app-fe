@@ -3,6 +3,7 @@ import {
   ViewChild,
   AfterViewInit,
   ChangeDetectionStrategy,
+  OnInit,
 } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -15,6 +16,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { DrugService } from '../../services/drug.service';
 
 interface DRUG {
   id: number;
@@ -40,7 +42,7 @@ interface DRUG {
   styleUrl: './drugs-list.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DrugsListComponent implements AfterViewInit {
+export class DrugsListComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = [
     'serialNo',
     'name',
@@ -48,25 +50,50 @@ export class DrugsListComponent implements AfterViewInit {
     'manufacturer',
     'expiryDate',
     'dosage',
+    'qrCode',
   ];
   dataSource: MatTableDataSource<DRUG>;
 
-  drugs: DRUG[] = [];
+  drugs: any[] = [];
+  selectedItem: any;
+  modalState: boolean = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private drugService: DrugService) {
     this.dataSource = new MatTableDataSource(this.drugs);
   }
 
-  addDrugs() {
-    this.router.navigate(['/add-drug']);
+  ngOnInit(): void {
+    this.fetchDrugs();
+    this.dataSource = new MatTableDataSource(this.drugs);
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  openModal(data: any) {
+    this.selectedItem = data;
+    this.modalState = true;
+  }
+
+  closeModal() {
+    this.modalState = false;
+    this.selectedItem = {};
+  }
+
+  async fetchDrugs() {
+    const res: any = await this.drugService.getDrugs();
+    console.log('--Response : ', res);
+    this.drugs = res;
+    this.dataSource.data = this.drugs;
+  }
+
+  addDrugs() {
+    this.router.navigate(['/add-drug']);
   }
 
   applyFilter(event: Event) {

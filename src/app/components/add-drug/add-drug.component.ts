@@ -7,7 +7,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
+import { Router } from '@angular/router';
 import * as QRCode from 'qrcode';
+import { DrugService } from '../../services/drug.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-add-drug',
@@ -79,7 +82,13 @@ export class AddDrugComponent implements OnInit {
     'mcg/kg', // Microgram per kilogram
   ];
 
-  constructor(private location: Location, private fb: FormBuilder) {}
+  constructor(
+    private location: Location,
+    private fb: FormBuilder,
+    private router: Router,
+    private drugService: DrugService,
+    private toast: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.addDrugForm = this.fb.group({
@@ -122,8 +131,19 @@ export class AddDrugComponent implements OnInit {
     console.log('--New Drug', { ...newDrug, qrCode });
     this.qrCodeDataURL = qrCode;
 
+    const drugData = { ...newDrug, qrCode };
+
     // const dataSizeInKB = (qrCode.length * (3 / 4)) / 1024;
     // console.log(`QR Code Size: ~${dataSizeInKB.toFixed(2)} KB`);
+
+    try {
+      const res = await this.drugService.addDrug(drugData);
+      console.log('-- New Drug Response : ', res);
+      this.toast.success('New Drug Added!');
+      this.router.navigateByUrl('/');
+    } catch (error) {
+      console.log('--Error : ', error);
+    }
   }
 
   get name() {
