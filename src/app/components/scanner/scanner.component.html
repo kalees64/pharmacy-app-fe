@@ -1,0 +1,27 @@
+<section class="w-full h-full">
+  <header class="bg-green-400 text-center p-2">
+    <h1 class="text-white text-center text-3xl uppercase font-bold">
+      Pharmacy
+    </h1>
+  </header>
+
+  <div class="size-96 mx-auto pt-10">
+    <zxing-scanner
+      [device]="selectedDevice"
+      (scanSuccess)="onCodeResult($event)"
+      [formats]="formatsEnabled"
+      [torch]="hasTorch"
+      (camerasFound)="onCamerasFound($event)"
+      [tryHarder]="true"
+    ></zxing-scanner>
+  </div>
+
+  <button *ngIf="hasTorch" (click)="toggleTorch()">
+    {{ torchEnabled ? "Turn Off Torch" : "Turn On Torch" }}
+  </button>
+
+  <div *ngIf="qrResult" style="margin-top: 20px">
+    <h2>Scanned QR Code:</h2>
+    <p>{{ qrResult }}</p>
+  </div>
+</section>
