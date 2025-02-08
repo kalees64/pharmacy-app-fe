@@ -26,7 +26,10 @@
             class="input"
             formControlName="name"
           />
-          <div *ngIf="name?.touched && name?.invalid" class="error">
+          <div
+            *ngIf="name?.touched && name?.invalid"
+            class="text-sm text-red-500"
+          >
             Drug name is required.
           </div>
         </div>
@@ -52,10 +55,16 @@
               <option value="EUR">EUR</option>
             </select>
           </div>
-          <div *ngIf="price?.touched && price?.invalid" class="error">
+          <div
+            *ngIf="price?.touched && price?.invalid"
+            class="text-sm text-red-500"
+          >
             Price is required.
           </div>
-          <div *ngIf="priceValue?.touched && priceValue?.invalid" class="error">
+          <div
+            *ngIf="priceValue?.touched && priceValue?.invalid"
+            class="text-sm text-red-500"
+          >
             Currency is required.
           </div>
         </div>
@@ -71,7 +80,7 @@
           />
           <div
             *ngIf="manufacturer?.touched && manufacturer?.invalid"
-            class="error"
+            class="text-sm text-red-500"
           >
             Manufacturer is required.
           </div>
@@ -86,7 +95,10 @@
             class="input"
             formControlName="expiryDate"
           />
-          <div *ngIf="expiryDate?.touched && expiryDate?.invalid" class="error">
+          <div
+            *ngIf="expiryDate?.touched && expiryDate?.invalid"
+            class="text-sm text-red-500"
+          >
             Expiry date is required.
           </div>
         </div>
@@ -125,12 +137,15 @@
             </select>
           </div>
 
-          <div *ngIf="dosage?.touched && dosage?.invalid" class="error">
+          <div
+            *ngIf="dosage?.touched && dosage?.invalid"
+            class="text-sm text-red-500"
+          >
             Dosage form is required.
           </div>
           <div
             *ngIf="dosageLevel?.touched && dosageLevel?.invalid"
-            class="error"
+            class="text-sm text-red-500"
           >
             Dosage level is required.
           </div>

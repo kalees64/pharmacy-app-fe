@@ -99,7 +99,7 @@ export class AddDrugComponent implements OnInit {
       expiryDate: ['', Validators.required],
       dosage: ['Tablet', Validators.required],
       dosageScale: ['mg', Validators.required],
-      dosageLevel: ['mg', Validators.required],
+      dosageLevel: ['', Validators.required],
     });
   }
 
@@ -171,6 +171,10 @@ export class AddDrugComponent implements OnInit {
   }
 
   get dosageLevel() {
+    return this.addDrugForm.get('dosageLevel');
+  }
+
+  get dosageScale() {
     return this.addDrugForm.get('dosageLevel');
   }
 }
